@@ -37,7 +37,7 @@ export const Input = ({ label, variant = "outline", color = "blue", ...restProps
     <div className="relative mb-3" data-te-input-wrapper-init>
       <input {...restProps} id={computedId} className={inputClasses} />
       <label htmlFor={computedId} className={labelClasses}>
-        {label}
+        {label} fez fe
       </label>
     </div>
   );
