@@ -1,7 +1,7 @@
 'use client';
 
-import Button from '@/designSystem/button';
-import { Input } from '@/designSystem/input';
+import Button from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
