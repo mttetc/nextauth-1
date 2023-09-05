@@ -1,7 +1,7 @@
 'use client';
 
-import Button from '@/designSystem/Button';
-import { Input } from '@/designSystem/Input';
+import Button from '@/designSystem/button';
+import { Input } from '@/designSystem/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -63,14 +63,14 @@ const SignUpForm = () => {
                         control={form.control}
                         name='username'
                         render={({ field }) => (
-                            <Input placeholder='johndoe' {...field} />
+                            <Input label="Username" placeholder='johndoe' {...field} />
                         )}
                     />
                     <Controller
                         control={form.control}
                         name='email'
                         render={({ field }) => (
-                            <Input placeholder='mail@example.com' {...field} />
+                            <Input label="Email" placeholder='mail@example.com' {...field} />
                         )}
                     />
                     <Controller
@@ -79,6 +79,7 @@ const SignUpForm = () => {
                         render={({ field }) => (
                             <Input
                                 type='password'
+                                label="Password"
                                 placeholder='Enter your password'
                                 {...field}
                             />
@@ -89,6 +90,7 @@ const SignUpForm = () => {
                         name='confirmPassword'
                         render={({ field }) => (
                             <Input
+                                label="Confirm Password"
                                 placeholder='Re-Enter your password'
                                 type='password'
                                 {...field}

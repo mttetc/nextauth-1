@@ -1,8 +1,9 @@
 'use client';
 
-import Button from '@/designSystem/Button';
-import { Input } from '@/designSystem/Input';
+import Button from '@/designSystem/button';
+import { Input } from '@/designSystem/input';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -24,8 +25,13 @@ const SignInForm = () => {
         resolver: zodResolver(FormSchema),
     });
 
-    const onSubmit = (values: z.infer<typeof FormSchema>) => {
+    const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+        const signInData = await signIn('credentials', {
+            email: values.email,
+            password: values.password
+        })
 
+        console.log(signInData)
     };
 
     return (
@@ -36,7 +42,7 @@ const SignInForm = () => {
                         control={form.control}
                         name='email'
                         render={({ field }) => (
-                            <Input placeholder='mail@example.com' {...field} />
+                            <Input label="Email" placeholder='mail@example.com' {...field} />
                         )}
                     />
                     <Controller
@@ -45,6 +51,7 @@ const SignInForm = () => {
                         render={({ field }) => (
                             <Input
                                 type='password'
+                                label="Password"
                                 placeholder='Enter your password'
                                 {...field}
                             />
