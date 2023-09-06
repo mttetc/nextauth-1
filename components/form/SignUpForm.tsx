@@ -1,7 +1,5 @@
 'use client';
 
-import Button from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -58,49 +56,55 @@ const SignUpForm = () => {
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-                <div className='space-y-2'>
-                    <Controller
-                        control={form.control}
-                        name='username'
-                        render={({ field }) => (
-                            <Input label="Username" placeholder='johndoe' {...field} />
-                        )}
-                    />
-                    <Controller
-                        control={form.control}
-                        name='email'
-                        render={({ field }) => (
-                            <Input label="Email" placeholder='mail@example.com' {...field} />
-                        )}
-                    />
-                    <Controller
-                        control={form.control}
-                        name='password'
-                        render={({ field }) => (
-                            <Input
-                                type='password'
-                                label="Password"
-                                placeholder='Enter your password'
-                                {...field}
-                            />
-                        )}
-                    />
-                    <Controller
-                        control={form.control}
-                        name='confirmPassword'
-                        render={({ field }) => (
-                            <Input
-                                label="Confirm Password"
-                                placeholder='Re-Enter your password'
-                                type='password'
-                                {...field}
-                            />
-                        )}
-                    />
-                </div>
-                <Button className='w-full mt-6' type='submit'>
-                    Sign up
-                </Button>
+                <Controller
+                    control={form.control}
+                    name='username'
+                    render={({ field }) => (
+                        <>
+                            <label className="label">
+                                <span className="label-text">Username</span>
+                            </label>
+                            <input type="text" placeholder="Type here" className="input input-bordered input-primary w-full max-w-xs" {...field} />
+                        </>
+                    )}
+                />
+                <Controller
+                    control={form.control}
+                    name='email'
+                    render={({ field }) => (
+                        <>
+                            <label className="label">
+                                <span className="label-text">Email</span>
+                            </label>
+                            <input type="text" placeholder="Type here" className="input input-bordered input-primary w-full max-w-xs" {...field} />
+                        </>
+                    )}
+                />
+                <Controller
+                    control={form.control}
+                    name='password'
+                    render={({ field }) => (
+                        <>
+                            <label className="label">
+                                <span className="label-text">Password</span>
+                            </label>
+                            <input type="text" placeholder="Type here" className="input input-bordered input-primary w-full max-w-xs" {...field} />
+                        </>
+                    )}
+                />
+                <Controller
+                    control={form.control}
+                    name='confirmPassword'
+                    render={({ field }) => (
+                        <>
+                            <label className="label">
+                                <span className="label-text">Confirm password</span>
+                            </label>
+                            <input type="text" placeholder="Type here" className="input input-bordered input-primary w-full max-w-xs" {...field} />
+                        </>
+                    )}
+                />
+                <button className="btn btn-primary" type="submit">Sign up</button>
             </form>
             <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>
                 or
