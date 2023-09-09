@@ -1,4 +1,4 @@
-import Navbar from '@/components/form/Navbar'
+import Navbar from '@/components/Navbar'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -23,10 +23,10 @@ export default function RootLayout({
           {children}
         </main>
         <div className="toast">
-  <div className="alert alert-info">
-    <span>New message arrived.</span>
-  </div>
-</div>
+          <div className="alert alert-info">
+            <span>New message arrived.</span>
+          </div>
+        </div>
       </body>
     </html>
   )
