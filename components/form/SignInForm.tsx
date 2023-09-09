@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -15,6 +16,7 @@ const FormSchema = z.object({
 });
 
 const SignInForm = () => {
+    const router = useRouter();
     const form = useForm<z.infer<typeof FormSchema>>({
         defaultValues: {
             email: '',
@@ -29,7 +31,12 @@ const SignInForm = () => {
             password: values.password
         })
 
-        console.log(signInData)
+        if (signInData?.error) {
+            console.error(signInData.error)
+        } else {
+            router.refresh();
+            router.push('/admin')
+        }
     };
 
     return (

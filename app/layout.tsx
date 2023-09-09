@@ -1,3 +1,4 @@
+import Navbar from '@/components/form/Navbar'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -18,8 +19,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <main className='h-screen flex flex-col justify-center items-center'>
+          <Navbar />
           {children}
         </main>
+        <div className="toast">
+  <div className="alert alert-info">
+    <span>New message arrived.</span>
+  </div>
+</div>
       </body>
     </html>
   )
