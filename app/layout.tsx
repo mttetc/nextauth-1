@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { ToastContainer } from 'react-toastify'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,11 +23,7 @@ export default function RootLayout({
           <Navbar />
           {children}
         </main>
-        <div className="toast">
-          <div className="alert alert-info">
-            <span>New message arrived.</span>
-          </div>
-        </div>
+        <ToastContainer />
       </body>
     </html>
   )

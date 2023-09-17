@@ -5,6 +5,7 @@ import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import * as z from 'zod';
 
 const FormSchema = z.object({
@@ -31,17 +32,21 @@ const SignInForm = () => {
             password: values.password
         })
 
-        if (signInData?.error) {
-            console.error(signInData.error)
+        console.log(signInData)
+
+        if (!signInData || signInData?.error) {
+            console.error(signInData?.error)
+            toast.error("Sign in failed")
         } else {
             router.refresh();
-            router.push('/admin')
+            router.push('/admin');
+            toast.success("Sign in successful");
         }
     };
 
     return (
         <FormProvider {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='w-full flex flex-col'>
                 <Controller
                     control={form.control}
                     name='email'
@@ -50,7 +55,7 @@ const SignInForm = () => {
                             <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
-                            <input type="text" placeholder="Type here" className="input input-bordered input-primary w-full max-w-xs" {...field} />
+                            <input type="text" className="input input-bordered input-primary w-full max-w-xs" {...field} />
                         </>
                     )}
                 />
@@ -62,11 +67,11 @@ const SignInForm = () => {
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
-                            <input type="text" placeholder="Type here" className="input input-bordered input-primary w-full max-w-xs" {...field} />
+                            <input type="text" className="input input-bordered input-primary w-full max-w-xs" {...field} />
                         </>
                     )}
                 />
-                <button className="btn btn-primary mt-4" type="submit">Sign in</button>
+                <button className="btn btn-primary mt-4 w-full" type="submit">Sign in</button>
             </form>
             <div className="divider">OR</div>
             <p className='text-center text-sm marker:mt-2'>

@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import * as z from 'zod';
 
 const FormSchema = z
@@ -48,14 +49,16 @@ const SignUpForm = () => {
 
         if (response.ok) {
             router.push('/sign-in');
+            toast.success("Registration successful");
         } else {
             console.error("Registration failed")
+            toast.error("Registration failed");
         }
     }
 
     return (
         <FormProvider {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='w-full flex flex-col'>
                 <Controller
                     control={form.control}
                     name='username'
@@ -64,7 +67,7 @@ const SignUpForm = () => {
                             <label className="label">
                                 <span className="label-text">Username</span>
                             </label>
-                            <input type="text" placeholder="Type here" className="input input-bordered input-primary w-full max-w-xs" {...field} />
+                            <input type="text" className="input input-bordered input-primary w-full max-w-xs" {...field} />
                         </>
                     )}
                 />
@@ -76,7 +79,7 @@ const SignUpForm = () => {
                             <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
-                            <input type="text" placeholder="Type here" className="input input-bordered input-primary w-full max-w-xs" {...field} />
+                            <input type="text" className="input input-bordered input-primary w-full max-w-xs" {...field} />
                         </>
                     )}
                 />
@@ -88,7 +91,7 @@ const SignUpForm = () => {
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
-                            <input type="text" placeholder="Type here" className="input input-bordered input-primary w-full max-w-xs" {...field} />
+                            <input type="text" className="input input-bordered input-primary w-full max-w-xs" {...field} />
                         </>
                     )}
                 />
@@ -100,11 +103,11 @@ const SignUpForm = () => {
                             <label className="label">
                                 <span className="label-text">Confirm password</span>
                             </label>
-                            <input type="text" placeholder="Type here" className="input input-bordered input-primary w-full max-w-xs" {...field} />
+                            <input type="text" className="input input-bordered input-primary w-full max-w-xs" {...field} />
                         </>
                     )}
                 />
-                <button className="btn btn-primary" type="submit">Sign up</button>
+                <button className="btn btn-primary mt-4 w-full" type="submit">Sign up</button>
             </form>
             <div className="divider">OR</div>
             <p className='text-center text-sm text-gray-600 mt-2'>

@@ -9,7 +9,7 @@ const UserAccountNav = () => {
 
     return (
         <button className="btn-primary" onClick={handleSignOut}>
-            Sign up
+            Sign out
         </button>
     )
 }
