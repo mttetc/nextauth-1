@@ -29,7 +29,8 @@ const SignInForm = () => {
     const onSubmit = async (values: z.infer<typeof FormSchema>) => {
         const signInData = await signIn('credentials', {
             email: values.email,
-            password: values.password
+            password: values.password,
+            redirect: false
         })
 
         if (signInData?.error) {
