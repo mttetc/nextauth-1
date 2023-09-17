@@ -32,13 +32,12 @@ const SignInForm = () => {
             password: values.password
         })
 
-        console.log(signInData)
-
-        if (!signInData || signInData?.error) {
-            console.error(signInData?.error)
+        if (signInData?.error) {
+            console.error(signInData.error)
             toast.error("Sign in failed")
         } else {
-            router.refresh();
+            // router.refresh();
+            console.log("success!")
             router.push('/admin');
             toast.success("Sign in successful");
         }
