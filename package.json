@@ -37,6 +37,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "daisyui": "^3.7.3",
-    "prisma": "^5.3.1"
+    "prisma": "^5.3.1",
+    "supabase": "^1.93.0"
   }
 }

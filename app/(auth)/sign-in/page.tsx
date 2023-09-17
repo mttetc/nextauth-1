@@ -2,9 +2,12 @@ import SignInForm from '@/components/form/SignInForm';
 
 const page = () => {
   return (
-    <div className='w-full'>
-      <SignInForm />
-    </div>
+    <>
+      <h1 className="text-5xl md:text-6xl">Sign in</h1>
+      <div className=" bg-base-100 p-10 rounded-md">
+        <SignInForm />
+      </div>
+    </>
   );
 };
 

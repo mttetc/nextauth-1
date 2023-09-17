@@ -7,7 +7,7 @@ const Navbar = async () => {
     const session = await getServerSession(authOptions);
 
     return (
-        <div className="navbar bg-base-100 px-6">
+        <div className="navbar bg-base-200 px-6">
             <div className="flex-1">
                 <Link className="btn btn-outline btn-sm"  href='/'>
                     Home
