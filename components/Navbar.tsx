@@ -7,15 +7,17 @@ const Navbar = async () => {
     const session = await getServerSession(authOptions);
 
     return (
-        <div className='bg-zinc-100 py-2 border-b border-s-zinc-200 fixed w-full z-10 top-0'>
-            <div className='container flex items-center justify-between m-auto px-3 sm:px-0'>
-                <Link className="btn btn-outline"  href='/'>
+        <div className="navbar bg-base-100 px-6">
+            <div className="flex-1">
+                <Link className="btn btn-outline btn-sm"  href='/'>
                     Home
                 </Link>
+            </div>
+            <div className="flex-none">
                 {session?.user ?
                     <UserAccountNav />
                     :
-                    <Link className="btn btn-primary" href='/sign-in'>
+                    <Link className="btn btn-primary btn-sm" href='/sign-in'>
                         Sign in
                     </Link>
                 }

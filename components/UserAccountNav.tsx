@@ -8,7 +8,7 @@ const UserAccountNav = () => {
     }
 
     return (
-        <button className="btn btn-primary" onClick={handleSignOut}>
+        <button className="btn btn-primary btn-sm" onClick={handleSignOut}>
             Sign out
         </button>
     )
