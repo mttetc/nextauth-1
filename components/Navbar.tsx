@@ -1,11 +1,13 @@
-import SignOut from "@/components/SignOut";
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
+"use client";
+
+import SignOut from "@/components/auth/SignOut";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import ThemeToggler from "./ThemeToggler";
 
-const Navbar = async () => {
-    const session = await getServerSession(authOptions);
+const Navbar = () => {
+    const { data: user } = useSession();
+    console.log("🚀 ~ file: Navbar.tsx:12 ~ Navbar ~ user:", user);
 
     return (
         <div className="navbar bg-base-200 px-6">
@@ -16,7 +18,7 @@ const Navbar = async () => {
             </div>
             <div className="flex-none">
                 <ThemeToggler />
-                {session?.user && <SignOut />}
+                {user?.user && <SignOut />}
             </div>
         </div>
     );

@@ -5,6 +5,7 @@ import Link from "next/link";
 const page = async () => {
     const session = await getServerSession(authOptions);
 
+    console.log(session);
     if (session?.user) {
         return (
             <div className="flex-1 flex flex-col items-center justify-center">
