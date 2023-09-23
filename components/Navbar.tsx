@@ -1,7 +1,8 @@
-import Link from 'next/link';
-import { getServerSession } from "next-auth"
-import UserAccountNav from '@/components/UserAccountNav';
-import { authOptions } from '@/lib/auth';
+import SignOut from "@/components/SignOut";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
+import Link from "next/link";
+import ThemeToggler from "./ThemeToggler";
 
 const Navbar = async () => {
     const session = await getServerSession(authOptions);
@@ -9,18 +10,13 @@ const Navbar = async () => {
     return (
         <div className="navbar bg-base-200 px-6">
             <div className="flex-1">
-                <Link className="btn btn-outline btn-sm"  href='/'>
+                <Link className="btn btn-outline btn-sm" href="/">
                     Home
                 </Link>
             </div>
             <div className="flex-none">
-                {session?.user ?
-                    <UserAccountNav />
-                    :
-                    <Link className="btn btn-primary btn-sm" href='/sign-in'>
-                        Sign in
-                    </Link>
-                }
+                <ThemeToggler />
+                {session?.user && <SignOut />}
             </div>
         </div>
     );
