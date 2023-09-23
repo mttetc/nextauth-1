@@ -27,10 +27,10 @@ const SignUpForm = () => {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            username: "ss",
-            email: "ss@ss.com",
-            password: "dadadada",
-            confirmPassword: "dadadada",
+            username: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
         },
     });
 
@@ -46,14 +46,14 @@ const SignUpForm = () => {
                 password: values.password,
             }),
         });
-        console.log(response);
 
         if (response.ok) {
             router.push("/sign-in");
             toast.success("Registration successful");
         } else {
-            console.error("Registration failed");
-            toast.error("Registration failed");
+            const errorMessage = await response.json();
+            console.error(`Registration failed: ${errorMessage.message}`);
+            toast.error(`Registration failed: ${errorMessage.message}`);
         }
     };
 
@@ -66,7 +66,7 @@ const SignUpForm = () => {
                 <Controller
                     control={form.control}
                     name="username"
-                    render={({ field }) => (
+                    render={({ field, fieldState: { error } }) => (
                         <>
                             <label className="label">
                                 <span className="label-text">Username</span>
@@ -76,13 +76,16 @@ const SignUpForm = () => {
                                 className="input input-bordered input-primary w-full max-w-xs"
                                 {...field}
                             />
+                            {error && (
+                                <p className="text-error">{error.message}</p>
+                            )}
                         </>
                     )}
                 />
                 <Controller
                     control={form.control}
                     name="email"
-                    render={({ field }) => (
+                    render={({ field, fieldState: { error } }) => (
                         <>
                             <label className="label">
                                 <span className="label-text">Email</span>
@@ -92,13 +95,16 @@ const SignUpForm = () => {
                                 className="input input-bordered input-primary w-full max-w-xs"
                                 {...field}
                             />
+                            {error && (
+                                <p className="text-error">{error.message}</p>
+                            )}
                         </>
                     )}
                 />
                 <Controller
                     control={form.control}
                     name="password"
-                    render={({ field }) => (
+                    render={({ field, fieldState: { error } }) => (
                         <>
                             <label className="label">
                                 <span className="label-text">Password</span>
@@ -108,13 +114,16 @@ const SignUpForm = () => {
                                 className="input input-bordered input-primary w-full max-w-xs"
                                 {...field}
                             />
+                            {error && (
+                                <p className="text-error">{error.message}</p>
+                            )}
                         </>
                     )}
                 />
                 <Controller
                     control={form.control}
                     name="confirmPassword"
-                    render={({ field }) => (
+                    render={({ field, fieldState: { error } }) => (
                         <>
                             <label className="label">
                                 <span className="label-text">
@@ -126,6 +135,9 @@ const SignUpForm = () => {
                                 className="input input-bordered input-primary w-full max-w-xs"
                                 {...field}
                             />
+                            {error && (
+                                <p className="text-error">{error.message}</p>
+                            )}
                         </>
                     )}
                 />

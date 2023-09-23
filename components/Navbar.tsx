@@ -16,7 +16,7 @@ const Navbar = () => {
                     Home
                 </Link>
             </div>
-            <div className="flex-none">
+            <div className="flex-none flex gap-4">
                 <ThemeToggler />
                 {user?.user && <SignOut />}
             </div>

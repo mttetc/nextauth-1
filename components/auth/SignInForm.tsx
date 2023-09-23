@@ -31,14 +31,13 @@ const SignInForm = () => {
         const signInData = await signIn("credentials", {
             email: values.email,
             password: values.password,
-            redirect: false,
         });
 
         if (signInData?.error) {
             console.error(signInData.error);
-            toast.error("Sign in failed");
+            toast.error(`Sign in failed: ${signInData.error}`);
         } else {
-            // router.refresh();
+            router.refresh();
             router.push("/admin");
             toast.success("Sign in successful");
         }
@@ -53,7 +52,7 @@ const SignInForm = () => {
                 <Controller
                     control={form.control}
                     name="email"
-                    render={({ field }) => (
+                    render={({ field, fieldState: { error } }) => (
                         <>
                             <label className="label">
                                 <span className="label-text">Email</span>
@@ -63,13 +62,16 @@ const SignInForm = () => {
                                 className="input input-bordered input-primary w-full max-w-xs"
                                 {...field}
                             />
+                            {error && (
+                                <p className="text-error">{error.message}</p>
+                            )}
                         </>
                     )}
                 />
                 <Controller
                     control={form.control}
                     name="password"
-                    render={({ field }) => (
+                    render={({ field, fieldState: { error } }) => (
                         <>
                             <label className="label">
                                 <span className="label-text">Password</span>
@@ -79,6 +81,9 @@ const SignInForm = () => {
                                 className="input input-bordered input-primary w-full max-w-xs"
                                 {...field}
                             />
+                            {error && (
+                                <p className="text-error">{error.message}</p>
+                            )}
                         </>
                     )}
                 />
