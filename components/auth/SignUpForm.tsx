@@ -1,8 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import * as z from "zod";
@@ -23,7 +23,6 @@ const FormSchema = z
     });
 
 const SignUpForm = () => {
-    const router = useRouter();
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -48,7 +47,7 @@ const SignUpForm = () => {
         });
 
         if (response.ok) {
-            router.push("/sign-in");
+            signIn();
             toast.success("Registration successful");
         } else {
             const errorMessage = await response.json();

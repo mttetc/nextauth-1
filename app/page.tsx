@@ -1,17 +1,22 @@
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
-import Link from "next/link";
+"use client";
 
-const page = async () => {
-    const session = await getServerSession(authOptions);
+import { signIn, useSession } from "next-auth/react";
 
-    console.log(session);
-    if (session?.user) {
+const HomePage = () => {
+    const { data, status } = useSession();
+
+    if (status === "loading") {
         return (
             <div className="flex-1 flex flex-col items-center justify-center">
-                <h1 className="text-5xl">
-                    Hello there, {session.user.username}!
-                </h1>
+                <span className="loading loading-spinner loading-sm"></span>
+            </div>
+        );
+    }
+
+    if (data?.user) {
+        return (
+            <div className="flex-1 flex flex-col items-center justify-center">
+                <h1 className="text-5xl">Hello there, {data.user.username}!</h1>
             </div>
         );
     }
@@ -22,11 +27,14 @@ const page = async () => {
             <p className="md:text-2xl pt-4 pb-6 md:pb-10">
                 It seems that you are not signed in.
             </p>
-            <Link href="/sign-in" className="btn btn-primary md:btn-lg">
+            <button
+                className="btn btn-primary md:btn-lg"
+                onClick={() => signIn()}
+            >
                 Sign in
-            </Link>
+            </button>
         </div>
     );
 };
 
-export default page;
+export default HomePage;

@@ -3,8 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import * as z from "zod";
@@ -18,7 +16,6 @@ const FormSchema = z.object({
 });
 
 const SignInForm = () => {
-    const router = useRouter();
     const form = useForm<z.infer<typeof FormSchema>>({
         defaultValues: {
             email: "",
@@ -31,15 +28,12 @@ const SignInForm = () => {
         const signInData = await signIn("credentials", {
             email: values.email,
             password: values.password,
+            callbackUrl: "/",
         });
 
         if (signInData?.error) {
             console.error(signInData.error);
             toast.error(`Sign in failed: ${signInData.error}`);
-        } else {
-            router.refresh();
-            router.push("/admin");
-            toast.success("Sign in successful");
         }
     };
 
