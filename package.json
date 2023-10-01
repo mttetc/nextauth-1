@@ -22,6 +22,7 @@
     "classnames": "^2.3.2",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
+    "jsonwebtoken": "^9.0.2",
     "next": "13.4.19",
     "next-auth": "^4.23.1",
     "pg": "^8.11.3",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.3",
     "daisyui": "^3.7.3",
     "prisma": "^5.3.1",
     "supabase": "^1.93.0"

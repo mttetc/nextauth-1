@@ -7,7 +7,6 @@ import ThemeToggler from "./ThemeToggler";
 
 const Navbar = () => {
     const { data: user } = useSession();
-    console.log("🚀 ~ file: Navbar.tsx:12 ~ Navbar ~ user:", user);
 
     return (
         <div className="navbar bg-base-200 px-6">

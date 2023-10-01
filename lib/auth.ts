@@ -3,6 +3,7 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "./prisma";
 import { compare } from "bcrypt";
+import { signJwtAccessToken } from "./jwt";
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
@@ -18,8 +19,12 @@ export const authOptions: NextAuthOptions = {
         CredentialsProvider({
             name: "Credentials",
             credentials: {
-                email: { label: "Username", type: "text", placeholder: "jsmith" },
-                password: { label: "Password", type: "password" }
+                email: {
+                    label: "Username",
+                    type: "text",
+                    placeholder: "jsmith",
+                },
+                password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
                 if (!credentials?.email || !credentials?.password) {
@@ -36,19 +41,29 @@ export const authOptions: NextAuthOptions = {
                     return null;
                 }
 
-                const passwordMatch = await compare(credentials.password, existingUser.password);
+                const passwordMatch = await compare(
+                    credentials.password,
+                    existingUser.password
+                );
 
                 if (!passwordMatch) {
                     return null;
                 }
 
+                const { password, ...userWithoutPassword } = existingUser;
+
+                const accessToken = signJwtAccessToken(userWithoutPassword);
+                const result = {
+                    ...userWithoutPassword,
+                    accessToken,
+                };
+
                 return {
-                    id: existingUser.id.toString(),
-                    username: existingUser.username,
-                    email: existingUser.email,
-                }
-            }
-        })
+                    ...result,
+                    id: result.id.toString(),
+                };
+            },
+        }),
     ],
     callbacks: {
         async jwt({ token, user }) {
@@ -56,17 +71,14 @@ export const authOptions: NextAuthOptions = {
 
             return {
                 ...token,
-                username: user.username,
-            }
+                ...user,
+            };
         },
         async session({ session, token }) {
             return {
                 ...session,
-                user: {
-                    ...session.user,
-                    username: token.username,
-                }
-            }
-        }
-    }
-}
+                user: token,
+            };
+        },
+    },
+};
