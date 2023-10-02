@@ -22,46 +22,22 @@ export const authOptions: NextAuthOptions = {
                 email: {
                     label: "Username",
                     type: "text",
-                    placeholder: "jsmith",
+                    required: true,
                 },
-                password: { label: "Password", type: "password" },
+                password: {
+                    label: "Password",
+                    type: "password",
+                    required: true,
+                },
             },
             async authorize(credentials) {
                 if (!credentials?.email || !credentials?.password) {
                     return null;
                 }
 
-                const existingUser = await prisma.user.findUnique({
-                    where: {
-                        email: credentials.email,
-                    },
-                });
+                const user = await signInWithCredentials(credentials);
 
-                if (!existingUser) {
-                    return null;
-                }
-
-                const passwordMatch = await compare(
-                    credentials.password,
-                    existingUser.password
-                );
-
-                if (!passwordMatch) {
-                    return null;
-                }
-
-                const { password, ...userWithoutPassword } = existingUser;
-
-                const accessToken = signJwtAccessToken(userWithoutPassword);
-                const result = {
-                    ...userWithoutPassword,
-                    accessToken,
-                };
-
-                return {
-                    ...result,
-                    id: result.id.toString(),
-                };
+                return user;
             },
         }),
     ],
@@ -82,3 +58,33 @@ export const authOptions: NextAuthOptions = {
         },
     },
 };
+
+export async function signInWithCredentials(credentials: {
+    email: string;
+    password: string;
+}) {
+    const user = await prisma.user.findUnique({
+        where: {
+            email: credentials.email,
+        },
+    });
+
+    if (!user) {
+        return null;
+    }
+
+    const passwordMatch = await compare(credentials.password, user.password);
+
+    if (!passwordMatch) {
+        return null;
+    }
+    const { password, ...userWithoutPassword } = user;
+    const accessToken = signJwtAccessToken(userWithoutPassword);
+    const result = {
+        ...userWithoutPassword,
+        accessToken,
+        id: user.id.toString(),
+    };
+
+    return result;
+}

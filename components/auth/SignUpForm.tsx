@@ -1,30 +1,19 @@
 "use client";
 
+import { signUpWithCredentials } from "@/actions/auth";
+import {
+    SignUpFormSchema,
+    SignUpForm as TSignUpForm,
+} from "@/validation/SignUp";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import * as z from "zod";
-
-const FormSchema = z
-    .object({
-        username: z.string().min(1, "Username is required").max(100),
-        email: z.string().min(1, "Email is required").email("Invalid email"),
-        password: z
-            .string()
-            .min(1, "Password is required")
-            .min(8, "Password must have than 8 characters"),
-        confirmPassword: z.string().min(1, "Password confirmation is required"),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-        path: ["confirmPassword"],
-        message: "Password do not match",
-    });
 
 const SignUpForm = () => {
-    const form = useForm<z.infer<typeof FormSchema>>({
-        resolver: zodResolver(FormSchema),
+    const form = useForm<TSignUpForm>({
+        resolver: zodResolver(SignUpFormSchema),
         defaultValues: {
             username: "",
             email: "",
@@ -33,27 +22,16 @@ const SignUpForm = () => {
         },
     });
 
-    const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-        const response = await fetch("/api/user", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                username: values.username,
-                email: values.email,
-                password: values.password,
-            }),
-        });
+    const onSubmit = async (values: TSignUpForm) => {
+        const response = await signUpWithCredentials(values);
 
-        if (response.ok) {
-            signIn();
+        if (response.success) {
             toast.success("Registration successful");
-        } else {
-            const errorMessage = await response.json();
-            console.error(`Registration failed: ${errorMessage.message}`);
-            toast.error(`Registration failed: ${errorMessage.message}`);
+            signIn();
+            return;
         }
+
+        toast.error(`Registration failed: ${response.error}`);
     };
 
     return (
